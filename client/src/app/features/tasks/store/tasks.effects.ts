@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { merge, NEVER, of } from 'rxjs';
 import { TaskService } from '../services/task.service';
 import * as TasksActions from './tasks.actions';
 
@@ -98,6 +98,7 @@ export class TasksEffects {
 
         const updated$ = this.taskService.onTaskUpdated().pipe(
           tap(task => {
+            console.log('Updated task:', task);
             this.store.dispatch(TasksActions.taskUpdatedFromSocket({ task }));
           })
         );
@@ -107,7 +108,9 @@ export class TasksEffects {
             this.store.dispatch(TasksActions.taskDeletedFromSocket({ id }));
           })
         );
-        return of(null);
+        return merge(created$, updated$, deleted$).pipe(
+          switchMap(() => NEVER)
+        );
       })
     ),
     { dispatch: false }
