@@ -1,0 +1,22 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <a routerLink="/">Task Sync</a>
+    </div>
+    
+    <nav class="navigation">
+      <ng-container *ngIf="isAuthenticated; else unauthenticated">
+        <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+        <div class="user-menu">
+          <span class="user-name">{{ userName }}</span>
+          <button class="logout-btn" (click)="logout()">Logout</button>
+        </div>
+      </ng-container>
+      
+      <ng-template #unauthenticated>
+        <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+        <a routerLink="/auth/register" routerLinkActive="active">Register</a>
+      </ng-template>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,27 @@
+<div class="task-item" [ngClass]="getPriorityClass()">
+  <div class="task-header">
+    <h3 class="task-title">{{ task.title }}</h3>
+    <div class="task-actions">
+      <button class="action-btn" (click)="toggleActions()">
+        <span *ngIf="!showActions">⋮</span>
+        <span *ngIf="showActions">×</span>
+      </button>
+      <div class="actions-dropdown" *ngIf="showActions">
+        <div class="action-menu">
+          <button *ngIf="task.status !== TaskStatus.TODO" (click)="moveToTodo()">Move to To Do</button>
+          <button *ngIf="task.status !== TaskStatus.IN_PROGRESS" (click)="moveToInProgress()">Move to In Progress</button>
+          <button *ngIf="task.status !== TaskStatus.DONE" (click)="moveToDone()">Move to Done</button>
+          <button class="delete-btn" (click)="onDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="task-content">
+    <p *ngIf="task.description" class="task-description">{{ task.description }}</p>
+    <div class="task-details">
+      <span class="task-priority">{{ task.priority }}</span>
+      <span class="task-date">{{ formatDate(task.updatedAt) }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: task-sync-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - task-sync-network
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: task-sync-server
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://root:password@mongodb:27017/task-sync?authSource=admin
+      - JWT_SECRET=your-production-secret-key
+      - CLIENT_URL=http://localhost:4200
+    networks:
+      - task-sync-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: task-sync-client
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - server
+    networks:
+      - task-sync-network
+
+networks:
+  task-sync-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

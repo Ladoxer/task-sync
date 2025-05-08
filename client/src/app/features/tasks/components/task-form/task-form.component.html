@@ -1,0 +1,58 @@
+<div class="task-form-container">
+  <h2>Add New Task</h2>
+
+  <app-alert 
+    *ngIf="error" 
+    type="error" 
+    [message]="error"
+    (dismissed)="clearError()">
+  </app-alert>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        formControlName="title" 
+        placeholder="Enter task title"
+        [ngClass]="{'invalid': taskForm.get('title')?.invalid && taskForm.get('title')?.touched}"
+      >
+      <div class="error-message" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+        <span *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</span>
+        <span *ngIf="taskForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (optional)</label>
+      <textarea 
+        id="description" 
+        formControlName="description" 
+        placeholder="Enter task description"
+        rows="3"
+      ></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select id="priority" formControlName="priority">
+        <option *ngFor="let priority of priorities" [value]="priority">
+          {{ priority }}
+        </option>
+      </select>
+    </div>
+    
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="taskForm.invalid || loading"
+      >
+        <app-loading-spinner *ngIf="loading" [size]="20"></app-loading-spinner>
+        <span *ngIf="!loading">Add Task</span>
+      </button>
+    </div>
+  </form>
+</div>

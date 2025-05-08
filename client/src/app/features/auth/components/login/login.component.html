@@ -1,0 +1,57 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Login</h2>
+    
+    <app-alert 
+      *ngIf="errorMessage" 
+      type="error" 
+      [message]="errorMessage"
+      (dismissed)="dismissAlert()">
+    </app-alert>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="Enter your email"
+          [ngClass]="{'invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        >
+        <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          placeholder="Enter your password"
+          [ngClass]="{'invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+        >
+        <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+          <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+        </div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="loginForm.invalid || loading"
+      >
+        <app-loading-spinner *ngIf="loading" [size]="20"></app-loading-spinner>
+        <span *ngIf="!loading">Login</span>
+      </button>
+    </form>
+    
+    <div class="auth-footer">
+      <p>Don't have an account? <a routerLink="/auth/register">Register</a></p>
+    </div>
+  </div>
+</div>

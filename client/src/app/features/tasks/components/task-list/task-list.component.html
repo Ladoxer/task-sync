@@ -1,0 +1,74 @@
+<div class="task-container">
+  <div class="task-header">
+    <h1>Tasks</h1>
+    <button class="btn btn-primary" (click)="toggleForm()">
+      {{ showForm ? 'Hide Form' : 'Add Task' }}
+    </button>
+  </div>
+
+  <app-alert 
+    *ngIf="error$ | async as error" 
+    [message]="error" 
+    type="error"
+    (dismissed)="clearError()">
+  </app-alert>
+
+  <app-task-form *ngIf="showForm" (formClosed)="toggleForm()"></app-task-form>
+
+  <div *ngIf="loading$ | async" class="loading-container">
+    <app-loading-spinner [size]="40"></app-loading-spinner>
+  </div>
+
+  <div *ngIf="!(loading$ | async)" class="task-board">
+    <div class="task-column">
+      <div class="column-header">
+        <h2>To Do</h2>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of todoTasks$ | async"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="(todoTasks$ | async)?.length === 0" class="empty-list">
+          No tasks to do
+        </div>
+      </div>
+    </div>
+
+    <div class="task-column">
+      <div class="column-header">
+        <h2>In Progress</h2>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of inProgressTasks$ | async"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="(inProgressTasks$ | async)?.length === 0" class="empty-list">
+          No tasks in progress
+        </div>
+      </div>
+    </div>
+
+    <div class="task-column">
+      <div class="column-header">
+        <h2>Done</h2>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of doneTasks$ | async"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="(doneTasks$ | async)?.length === 0" class="empty-list">
+          No completed tasks
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
