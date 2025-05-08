@@ -39,7 +39,7 @@ A real-time task management application built with Angular 17 and Express/TypeSc
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/task-sync.git
+   git clone https://github.com/Ladoxer/task-sync.git
    cd task-sync
    ```
 
