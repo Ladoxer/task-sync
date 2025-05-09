@@ -5,5 +5,6 @@ export const TYPES = {
   WebSocketService: Symbol.for('WebSocketService'),
   DatabaseService: Symbol.for('DatabaseService'),
   AuthService: Symbol.for('AuthService'),
-  UserRepository: Symbol.for('UserRepository')
+  UserRepository: Symbol.for('UserRepository'),
+  UserService: Symbol.for('UserService'),
 };

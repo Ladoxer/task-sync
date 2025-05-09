@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/tasks/tasks.routes').then(m => m.TASKS_ROUTES)
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./features/profile/profile.routes').then(m => m.PROFILE_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: 'tasks'
   }

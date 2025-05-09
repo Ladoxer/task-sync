@@ -4,14 +4,18 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #333;
-  background-color: #f9f9f9;
+  // color: #333;
+  // background-color: #f9f9f9;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -25,6 +29,60 @@ a {
 
 button {
   font-family: inherit;
+}
+
+:root {
+  /* Base colors */
+  --primary-color: #3498db;       /* Blue */
+  --secondary-color: #2ecc71;     /* Green */
+  --error-color: #e74c3c;         /* Red */
+  --warning-color: #f39c12;       /* Orange */
+  --success-color: #27ae60;       /* Green */
+  
+  /* Interface colors */
+  --background-color: #f9f9f9;    /* Light gray background */
+  --surface-color: #ffffff;       /* White surface */
+  --text-color: #2c3e50;          /* Dark blue text */
+  --text-light-color: #7f8c8d;    /* Gray text */
+  --border-color: #dfe6e9;        /* Light border */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Shadow */
+  
+  /* Task colors */
+  --todo-color: #3498db;          /* Blue for TODO tasks */
+  --in-progress-color: #f39c12;   /* Orange for IN_PROGRESS tasks */
+  --done-color: #2ecc71;          /* Green for DONE tasks */
+  
+  /* Priority colors */
+  --priority-high: #e74c3c;       /* Red for HIGH priority */
+  --priority-medium: #f39c12;     /* Orange for MEDIUM priority */
+  --priority-low: #3498db;        /* Blue for LOW priority */
+}
+
+[data-theme="dark"] {
+  /* Base colors */
+  --primary-color: #3498db;       /* Keep primary color */
+  --secondary-color: #2ecc71;     /* Keep secondary color */
+  --error-color: #e74c3c;         /* Keep error color */
+  --warning-color: #f39c12;       /* Keep warning color */
+  --success-color: #27ae60;       /* Keep success color */
+  
+  /* Interface colors - dark theme */
+  --background-color: #121212;    /* Dark background */
+  --surface-color: #1e1e1e;       /* Dark surface */
+  --text-color: #ecf0f1;          /* Light text */
+  --text-light-color: #bdc3c7;    /* Light gray text */
+  --border-color: #2d3436;        /* Dark border */
+  --shadow-color: rgba(0, 0, 0, 0.2); /* Darker shadow */
+  
+  /* Task colors - keep the same for consistency */
+  --todo-color: #3498db;
+  --in-progress-color: #f39c12;
+  --done-color: #2ecc71;
+  
+  /* Priority colors - keep the same for consistency */
+  --priority-high: #e74c3c;
+  --priority-medium: #f39c12;
+  --priority-low: #3498db;
 }
 
 .container {

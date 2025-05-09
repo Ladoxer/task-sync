@@ -17,6 +17,7 @@ import { WebSocketService } from '../infrastructure/websocket/WebSocketService';
 // Services
 import { TaskService } from '../domain/services/TaskService';
 import { AuthService } from '../domain/services/AuthService';
+import { UserService } from '../domain/services/UserService';
 
 export const container = new Container();
 
@@ -35,6 +36,7 @@ container.bind<IUserRepository>(TYPES.UserRepository).to(MongoUserRepository).in
 // Services
 container.bind<TaskService>(TYPES.TaskService).to(TaskService).inSingletonScope();
 container.bind<AuthService>(TYPES.AuthService).to(AuthService).inSingletonScope();
+container.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
 
 // Export the function
 export const configureContainer = (): Container => {
