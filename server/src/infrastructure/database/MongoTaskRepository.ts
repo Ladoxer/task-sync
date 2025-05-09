@@ -110,4 +110,20 @@ export class MongoTaskRepository implements ITaskRepository {
       return false;
     }
   }
+
+  async findByTeam(teamId: string): Promise<Task[]> {
+    const tasks = await this.getCollection().find({ teamId }).toArray();
+    return tasks.map(task => new Task({
+      ...task,
+      id: task._id.toString()
+    }));
+  }
+  
+  async findByAssignee(assigneeId: string): Promise<Task[]> {
+    const tasks = await this.getCollection().find({ assignedTo: assigneeId }).toArray();
+    return tasks.map(task => new Task({
+      ...task,
+      id: task._id.toString()
+    }));
+  }
 }

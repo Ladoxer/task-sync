@@ -13,6 +13,8 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { tasksReducer } from './features/tasks/store/tasks.reducer';
 import { TasksEffects } from './features/tasks/store/tasks.effects';
+import { teamsReducer } from './features/teams/store/teams.reducer';
+import { TeamsEffects } from './features/teams/store/teams.effects';
 
 const socketConfig: SocketIoConfig = {
   url: environment.socketUrl,
@@ -30,9 +32,10 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     provideStore({
-      tasks: tasksReducer
+      tasks: tasksReducer,
+      teams: teamsReducer
     }),
-    provideEffects([TasksEffects]),
+    provideEffects([TasksEffects, TeamsEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: environment.production

@@ -1,0 +1,43 @@
+<div class="teams-container">
+  <div class="teams-header">
+    <h1>My Teams</h1>
+    <button class="btn btn-primary" (click)="toggleCreateForm()">
+      {{ showCreateForm ? 'Cancel' : 'Create Team' }}
+    </button>
+  </div>
+  
+  <app-alert 
+    *ngIf="error$ | async as error"
+    type="error"
+    [message]="error"
+    (dismissed)="clearError()">
+  </app-alert>
+  
+  <app-team-form *ngIf="showCreateForm" (formClosed)="toggleCreateForm()"></app-team-form>
+  
+  <div *ngIf="loading$ | async" class="loading-container">
+    <app-loading-spinner [size]="40"></app-loading-spinner>
+  </div>
+  
+  <div *ngIf="!(loading$ | async)" class="teams-list">
+    <ng-container *ngIf="(teams$ | async)?.length; else noTeams">
+      <div *ngFor="let team of teams$ | async" class="team-card">
+        <h2>{{ team.name }}</h2>
+        <p *ngIf="team.description" class="team-description">{{ team.description }}</p>
+        <div class="team-meta">
+          <span class="team-members-count">
+            {{ team.members.length }} {{ team.members.length === 1 ? 'member' : 'members' }}
+          </span>
+        </div>
+        <a [routerLink]="['/teams', team.id]" class="team-link">View Team</a>
+      </div>
+    </ng-container>
+    
+    <ng-template #noTeams>
+      <div class="no-teams">
+        <p>You don't have any teams yet.</p>
+        <button class="btn btn-primary" (click)="toggleCreateForm()">Create a Team</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

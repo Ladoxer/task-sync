@@ -1,0 +1,101 @@
+<div class="team-members-container">
+  <div class="members-header">
+    <h2>Team Members</h2>
+    
+    <button 
+      *ngIf="canManage"
+      class="btn btn-primary"
+      (click)="toggleAddMemberForm()"
+    >
+      {{ showAddMemberForm ? 'Cancel' : 'Add Member' }}
+    </button>
+  </div>
+  
+  <app-alert 
+    *ngIf="error"
+    type="error"
+    [message]="error"
+    (dismissed)="clearError()">
+  </app-alert>
+  
+  <app-alert 
+    *ngIf="success"
+    type="success"
+    [message]="success"
+    (dismissed)="clearSuccess()">
+  </app-alert>
+  
+  <div *ngIf="showAddMemberForm" class="add-member-form">
+    <form [formGroup]="addMemberForm" (ngSubmit)="onAddMember()">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="Enter member's email"
+        >
+        <div class="error-message" *ngIf="addMemberForm.get('email')?.invalid && addMemberForm.get('email')?.touched">
+          <span *ngIf="addMemberForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="addMemberForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" formControlName="role">
+          <option [value]="TeamRole.MEMBER">Member</option>
+          <option [value]="TeamRole.ADMIN" *ngIf="isOwner">Admin</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" [disabled]="addMemberForm.invalid">Add Member</button>
+    </form>
+  </div>
+  
+  <div class="members-list">
+    <div *ngFor="let member of team.members" class="member-card">
+      <div class="member-info">
+        <div class="member-name">{{ getMemberName(member) }}</div>
+        <div class="member-role">
+          <span class="badge" [ngClass]="getRoleBadgeClass(member.role)">{{ member.role }}</span>
+        </div>
+      </div>
+      
+      <div class="member-actions" *ngIf="canEditMember(member) || canRemoveMember(member)">
+        <div class="dropdown">
+          <button class="dropdown-toggle">⋮</button>
+          <div class="dropdown-menu">
+            <div *ngIf="canEditMember(member)">
+              <div class="dropdown-header">Change Role</div>
+              <button 
+                *ngIf="member.role !== TeamRole.MEMBER"
+                class="dropdown-item" 
+                (click)="onUpdateMemberRole(member.userId, TeamRole.MEMBER)"
+              >
+                Make Member
+              </button>
+              <button 
+                *ngIf="member.role !== TeamRole.ADMIN && isOwner"
+                class="dropdown-item" 
+                (click)="onUpdateMemberRole(member.userId, TeamRole.ADMIN)"
+              >
+                Make Admin
+              </button>
+            </div>
+            
+            <div class="dropdown-divider" *ngIf="canEditMember(member) && canRemoveMember(member)"></div>
+            
+            <button 
+              *ngIf="canRemoveMember(member)"
+              class="dropdown-item text-danger" 
+              (click)="onRemoveMember(member.userId)"
+            >
+              Remove from Team
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

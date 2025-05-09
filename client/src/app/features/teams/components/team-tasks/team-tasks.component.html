@@ -1,0 +1,127 @@
+<div class="team-tasks-container">
+  <div class="tasks-header">
+    <h2>Team Tasks</h2>
+    
+    <button 
+      *ngIf="canManage"
+      class="btn btn-primary"
+      (click)="toggleTaskForm()"
+    >
+      {{ showTaskForm ? 'Cancel' : 'Add Task' }}
+    </button>
+  </div>
+  
+  <app-alert 
+    *ngIf="error"
+    type="error"
+    [message]="error"
+    (dismissed)="clearError()">
+  </app-alert>
+  
+  <div *ngIf="showTaskForm" class="task-form">
+    <form [formGroup]="taskForm" (ngSubmit)="onCreateTask()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title" 
+          placeholder="Enter task title"
+        >
+        <div class="error-message" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+          <span *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</span>
+          <span *ngIf="taskForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description (optional)</label>
+        <textarea 
+          id="description" 
+          formControlName="description" 
+          placeholder="Enter task description"
+          rows="3"
+        ></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="priority">Priority</label>
+          <select id="priority" formControlName="priority">
+            <option *ngFor="let priority of priorities" [value]="priority">
+              {{ priority }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="dueDate">Due Date (optional)</label>
+          <input 
+            type="date" 
+            id="dueDate" 
+            formControlName="dueDate"
+          >
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Create Task</button>
+    </form>
+  </div>
+  
+  <div *ngIf="loading" class="loading-container">
+    <app-loading-spinner [size]="30"></app-loading-spinner>
+  </div>
+  
+  <div *ngIf="!loading" class="tasks-board">
+    <div class="task-column">
+      <div class="column-header todo">
+        <h3>To Do ({{ todoTasks.length }})</h3>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of todoTasks"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="todoTasks.length === 0" class="empty-tasks">
+          No tasks to do
+        </div>
+      </div>
+    </div>
+    
+    <div class="task-column">
+      <div class="column-header in-progress">
+        <h3>In Progress ({{ inProgressTasks.length }})</h3>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of inProgressTasks"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="inProgressTasks.length === 0" class="empty-tasks">
+          No tasks in progress
+        </div>
+      </div>
+    </div>
+    
+    <div class="task-column">
+      <div class="column-header done">
+        <h3>Done ({{ doneTasks.length }})</h3>
+      </div>
+      <div class="task-list">
+        <app-task-item
+          *ngFor="let task of doneTasks"
+          [task]="task"
+          (statusChange)="onTaskStatusChange($event)"
+          (deleteTask)="onTaskDelete($event)"
+        ></app-task-item>
+        <div *ngIf="doneTasks.length === 0" class="empty-tasks">
+          No completed tasks
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

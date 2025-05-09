@@ -1,0 +1,88 @@
+<div class="team-detail-container">
+  <app-alert 
+    *ngIf="error$ | async as error"
+    type="error"
+    [message]="error"
+    (dismissed)="clearError()">
+  </app-alert>
+  
+  <div *ngIf="loading$ | async" class="loading-container">
+    <app-loading-spinner [size]="40"></app-loading-spinner>
+  </div>
+  
+  <ng-container *ngIf="!(loading$ | async) && (team$ | async) as team">
+    <div class="team-header">
+      <div class="team-info">
+        <h1>{{ team.name }}</h1>
+        <p *ngIf="team.description" class="team-description">{{ team.description }}</p>
+        
+        <div class="team-meta">
+          <span class="team-members-count">
+            {{ team.members.length }} {{ team.members.length === 1 ? 'member' : 'members' }}
+          </span>
+          
+          <ng-container *ngFor="let member of team.members">
+            <span *ngIf="member.userId === currentUserId" class="team-role">
+              Your role: <span class="badge" [ngClass]="getRoleBadgeClass(member.role)">{{ member.role }}</span>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+      
+      <div class="team-actions">
+        <ng-container *ngIf="canManage$ | async">
+          <button class="btn btn-secondary" (click)="toggleEditForm()">
+            {{ showEditForm ? 'Cancel Edit' : 'Edit Team' }}
+          </button>
+        </ng-container>
+        
+        <ng-container *ngIf="isOwner$ | async">
+          <button class="btn btn-danger" (click)="deleteTeam(team.id)">Delete Team</button>
+        </ng-container>
+        
+        <ng-container *ngIf="(isOwner$ | async) === false">
+          <button class="btn btn-secondary" (click)="leaveTeam(team.id)">Leave Team</button>
+        </ng-container>
+      </div>
+    </div>
+    
+    <app-team-form 
+      *ngIf="showEditForm" 
+      [team]="team" 
+      (formClosed)="toggleEditForm()">
+    </app-team-form>
+    
+    <div class="team-tabs">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'tasks'"
+        (click)="setActiveTab('tasks')"
+      >
+        Tasks
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'members'"
+        (click)="setActiveTab('members')"
+      >
+        Members
+      </button>
+    </div>
+    
+    <div class="tab-content">
+      <app-team-tasks 
+        *ngIf="activeTab === 'tasks'"
+        [teamId]="team.id"
+        [canManage]="(canManage$ | async) || false"
+      ></app-team-tasks>
+      
+      <app-team-members 
+        *ngIf="activeTab === 'members'"
+        [team]="team"
+        [currentUserId]="currentUserId"
+        [isOwner]="(isOwner$ | async) || false"
+        [canManage]="(canManage$ | async) || false"
+      ></app-team-members>
+    </div>
+  </ng-container>
+</div>

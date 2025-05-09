@@ -7,6 +7,9 @@ export interface Task {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
+  teamId?: string;
+  assignedTo?: string;
+  dueDate?: Date;
 }
 
 export enum TaskStatus {
@@ -25,6 +28,9 @@ export interface CreateTaskRequest {
   title: string;
   description?: string;
   priority: TaskPriority;
+  teamId?: string;
+  assignedTo?: string;
+  dueDate?: string;
 }
 
 export interface UpdateTaskRequest {
@@ -32,4 +38,8 @@ export interface UpdateTaskRequest {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+}
+
+export interface AssignTaskRequest {
+  assigneeId: string;
 }

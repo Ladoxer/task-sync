@@ -1,0 +1,217 @@
+.team-members-container {
+  
+}
+
+.members-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  h2 {
+    margin: 0;
+    color: var(--text-color);
+  }
+}
+
+.add-member-form {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  
+  .form-group {
+    margin-bottom: 15px;
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
+      background-color: var(--surface-color);
+      color: var(--text-color);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+    }
+    
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.875rem;
+      margin-top: 4px;
+    }
+  }
+  
+  .btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: #2980b9;
+    }
+  }
+}
+
+.members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.member-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 6px;
+  padding: 12px 15px;
+  
+  .member-info {
+    .member-name {
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 4px;
+    }
+    
+    .member-role {
+      .badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      
+      .badge-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      
+      .badge-success {
+        background-color: var(--success-color);
+        color: white;
+      }
+      
+      .badge-info {
+        background-color: var(--todo-color);
+        color: white;
+      }
+    }
+  }
+  
+  .member-actions {
+    position: relative;
+    
+    .dropdown {
+      position: relative;
+      
+      .dropdown-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.25rem;
+        color: var(--text-light-color);
+        padding: 4px 8px;
+        border-radius: 4px;
+        
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+      
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--surface-color);
+        border-radius: 4px;
+        box-shadow: 0 2px 8px var(--shadow-color);
+        min-width: 150px;
+        z-index: 10;
+        display: none;
+        
+        .dropdown-header {
+          padding: 8px 12px;
+          font-weight: 500;
+          color: var(--text-light-color);
+          font-size: 0.75rem;
+          text-transform: uppercase;
+        }
+        
+        .dropdown-item {
+          display: block;
+          width: 100%;
+          text-align: left;
+          padding: 8px 12px;
+          border: none;
+          background: none;
+          cursor: pointer;
+          font-size: 0.875rem;
+          color: var(--text-color);
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+          
+          &.text-danger {
+            color: var(--error-color);
+          }
+        }
+        
+        .dropdown-divider {
+          height: 1px;
+          background-color: var(--border-color);
+          margin: 6px 0;
+        }
+      }
+      
+      &:hover .dropdown-menu {
+        display: block;
+      }
+    }
+  }
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  
+  &:hover {
+    background-color: #2980b9;
+  }
+}

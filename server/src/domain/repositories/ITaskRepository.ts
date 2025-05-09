@@ -7,4 +7,6 @@ export interface ITaskRepository {
   create(task: Task): Promise<Task>;
   update(id: string, task: Partial<ITask>): Promise<Task | null>;
   delete(id: string): Promise<boolean>;
+  findByTeam(teamId: string): Promise<Task[]>;
+  findByAssignee(assigneeId: string): Promise<Task[]>;
 }

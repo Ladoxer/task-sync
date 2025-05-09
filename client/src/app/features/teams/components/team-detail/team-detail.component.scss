@@ -1,0 +1,146 @@
+.team-detail-container {
+  padding: 20px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  
+  .team-info {
+    flex: 1;
+    
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+    
+    .team-description {
+      color: var(--text-light-color);
+      margin-bottom: 15px;
+    }
+    
+    .team-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-light-color);
+      font-size: 0.875rem;
+      
+      .team-role {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .badge {
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      
+      .badge-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      
+      .badge-success {
+        background-color: var(--success-color);
+        color: white;
+      }
+      
+      .badge-info {
+        background-color: var(--todo-color);
+        color: white;
+      }
+    }
+  }
+  
+  .team-actions {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.team-tabs {
+  display: flex;
+  gap: 1px;
+  background-color: var(--surface-color);
+  border-radius: 8px 8px 0 0;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background-color: var(--surface-color);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-color);
+  border-bottom: 2px solid transparent;
+  flex: 1;
+  text-align: center;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  &.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
+.tab-content {
+  background-color: var(--surface-color);
+  border-radius: 0 0 8px 8px;
+  padding: 20px;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.btn-secondary {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.btn-danger {
+  background-color: var(--error-color);
+  color: white;
+  
+  &:hover {
+    background-color: #c0392b;
+  }
+}

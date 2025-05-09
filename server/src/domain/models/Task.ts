@@ -9,6 +9,9 @@ export class Task implements ITask {
   public createdAt: Date;
   public updatedAt: Date;
   public userId: string;
+  public teamId?: string;        // Add this field for team association
+  public assignedTo?: string;    // Add this field for task assignment
+  public dueDate?: Date;
 
   constructor(task: Partial<ITask>) {
     this.id = task.id || crypto.randomUUID();
@@ -19,6 +22,9 @@ export class Task implements ITask {
     this.createdAt = task.createdAt || new Date();
     this.updatedAt = task.updatedAt || new Date();
     this.userId = task.userId || '';
+    this.teamId = task.teamId;
+    this.assignedTo = task.assignedTo;
+    this.dueDate = task.dueDate;
   }
 
   public update(data: Partial<ITask>): void {

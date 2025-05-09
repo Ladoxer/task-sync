@@ -7,6 +7,9 @@ export interface ITask {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
+  teamId?: string;
+  assignedTo?: string;
+  dueDate?: Date;
 }
 
 export enum TaskStatus {
