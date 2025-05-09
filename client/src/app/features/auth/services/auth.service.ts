@@ -5,6 +5,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { TokenService } from '../../../core/services/token.service';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.model';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.mode
 export class AuthService {
   private http = inject(HttpClient);
   private tokenService = inject(TokenService);
+  private themeService = inject(ThemeService);
   private apiUrl = `${environment.apiUrl}/auth`;
   
   private authStatusSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -23,6 +25,9 @@ export class AuthService {
         tap(response => {
           this.tokenService.saveToken(response.token);
           this.tokenService.saveUser(response.user);
+          if (response.user.theme) {
+            this.themeService.setTheme(response.user.theme as 'light' | 'dark');
+          }
           this.authStatusSubject.next(true);
         })
       );

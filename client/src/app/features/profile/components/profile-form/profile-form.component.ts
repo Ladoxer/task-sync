@@ -5,6 +5,7 @@ import { UserProfile } from '../../models/user-profile.model';
 import { UserService } from '../../services/user.service';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
 import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -232,7 +233,8 @@ export class ProfileFormComponent implements OnInit, OnChanges {
   
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private themeService: ThemeService,
   ) {}
   
   ngOnInit(): void {
@@ -260,6 +262,8 @@ export class ProfileFormComponent implements OnInit, OnChanges {
   
   private populateForm(): void {
     if (!this.userProfile) return;
+
+    const currentTheme = this.themeService.getCurrentTheme();
     
     this.profileForm.patchValue({
       name: this.userProfile.name,
@@ -267,7 +271,7 @@ export class ProfileFormComponent implements OnInit, OnChanges {
       jobTitle: this.userProfile?.jobTitle || '',
       department: this.userProfile?.department || '',
       bio: this.userProfile?.bio || '',
-      theme: this.userProfile?.theme || 'light'
+      theme: this.userProfile?.theme || currentTheme,
     });
     
     // Mark form as pristine after populating
@@ -296,6 +300,9 @@ export class ProfileFormComponent implements OnInit, OnChanges {
         this.loading = false;
         this.success = true;
         this.profileForm.markAsPristine();
+        if (updatedProfile.theme) {
+          this.themeService.setTheme(updatedProfile.theme);
+        }
         this.profileUpdated.emit(updatedProfile);
         // this.userProfile = updatedProfile;
         // this.populateForm();

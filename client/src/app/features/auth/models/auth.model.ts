@@ -15,5 +15,12 @@ export interface AuthResponse {
     id: string;
     email: string;
     name: string;
+    avatar?: string;
+    jobTitle?: string;
+    department?: string;
+    bio?: string;
+    theme?: 'light' | 'dark';
+    createdAt: Date;
+    updatedAt: Date;
   };
 }
